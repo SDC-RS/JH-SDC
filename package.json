@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "postgres-questions": "node etl/postgres-questions.js",
-    "postgres-answers": "node etl/postgres-answers.js"
+    "postgres-answers": "node etl/postgres-answers.js",
+    "postgres-photos": "node etl/postgres-answers_photos.js"
   },
   "repository": {
     "type": "git",
