@@ -1,0 +1,19 @@
+{
+  "name": "jh-sdc",
+  "version": "1.0.0",
+  "description": "SDC",
+  "main": "index.js",
+  "scripts": {
+    "postgres-etl": "node etl/postgres.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SDC-RS/JH-SDC.git"
+  },
+  "author": "rrrsss123",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SDC-RS/JH-SDC/issues"
+  },
+  "homepage": "https://github.com/SDC-RS/JH-SDC#readme"
+}
