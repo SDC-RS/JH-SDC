@@ -4,7 +4,8 @@
   "description": "SDC",
   "main": "index.js",
   "scripts": {
-    "postgres-etl": "node etl/postgres.js"
+    "postgres-questions": "node etl/postgres-questions.js",
+    "postgres-answers": "node etl/postgres-answers.js"
   },
   "repository": {
     "type": "git",
@@ -15,5 +16,9 @@
   "bugs": {
     "url": "https://github.com/SDC-RS/JH-SDC/issues"
   },
-  "homepage": "https://github.com/SDC-RS/JH-SDC#readme"
+  "homepage": "https://github.com/SDC-RS/JH-SDC#readme",
+  "dependencies": {
+    "fast-csv": "^4.3.6",
+    "pg": "^8.7.1"
+  }
 }

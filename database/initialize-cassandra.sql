@@ -22,8 +22,13 @@ CREATE TABLE IF NOT EXISTS answers (
   answerer_name varchar,
   answerer_email varchar,
   helpfulness int,
-  reported boolean,
-  photos varchar
+  reported boolean
+);
+
+CREATE TABLE IF NOT EXISTS photos (
+  id int PRIMARY KEY,
+  answer_id int,
+  url varchar
 );
 
 describe tables;

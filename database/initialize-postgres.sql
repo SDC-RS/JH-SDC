@@ -23,7 +23,13 @@ CREATE TABLE IF NOT EXISTS answers (
   answerer_email VARCHAR(128) NOT NULL,
   helpfulness INTEGER NOT NULL,
   reported BOOLEAN NOT NULL,
-  photos VARCHAR(1024) NOT NULL,
+  PRIMARY KEY (id)
+);
+
+CREATE TABLE IF NOT EXISTS photos (
+  id INTEGER NOT NULL,
+  answer_id INTEGER NOT NULL,
+  url VARCHAR(512) NOT NULL,
   PRIMARY KEY (id)
 );
 
