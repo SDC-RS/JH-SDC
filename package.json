@@ -9,7 +9,8 @@
     "postgres-photos": "node etl/postgres-answers_photos.js",
     "cassandra-answers": "node etl/cassandra-answers.js",
     "cassandra-questions": "node etl/cassandra-questions.js",
-    "cassandra-photos": "node etl/cassandra-photos.js"
+    "cassandra-photos": "node etl/cassandra-photos.js",
+    "start": "nodemon server/index.js"
   },
   "repository": {
     "type": "git",
@@ -23,7 +24,11 @@
   "homepage": "https://github.com/SDC-RS/JH-SDC#readme",
   "dependencies": {
     "cassandra-driver": "^4.6.3",
+    "express": "^4.17.1",
     "fast-csv": "^4.3.6",
     "pg": "^8.7.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.12"
   }
 }
