@@ -45,9 +45,9 @@ app.get('/qa/questions', (req, res) => {
     'p.answer_id p_answer_id, ' +
     'p.url p_url ' +
     'FROM questions q ' +
-    'LEFT JOIN answers a ON q.question_id=a.question_id ' +
+    'LEFT JOIN answers a ON q.question_id=a.question_id AND a.reported=FALSE ' +
     'LEFT JOIN photos p ON a.id=p.answer_id ' +
-    'WHERE product_id=$1';
+    'WHERE product_id=$1 AND q.reported=FALSE';
   pool.query(query, [productId], (err, result) => {
     if (err) {
       console.error(err)
@@ -120,7 +120,7 @@ app.get('/qa/questions/:question_id/answers', (req, res) => {
     'p.url p_url ' +
     'FROM answers a ' +
     'LEFT JOIN photos p ON a.id=p.answer_id ' +
-    'WHERE a.question_id=$1';
+    'WHERE a.question_id=$1 AND a.reported=FALSE';
   pool.query(query, [questionId], (err, result) => {
     if (err) {
       console.error(err)
