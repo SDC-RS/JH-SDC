@@ -164,9 +164,9 @@ app.post('/qa/questions', async (req, res) => {
   const query = 'INSERT INTO questions(question_id, product_id, question_body, question_date, asker_name, asker_email, question_helpfulness, reported) VALUES($1, $2, $3, $4, $5, $6, $7, $8)'
   pool.query(query, [newQuestionId, Number(req.body.product_id), req.body.body, new Date(), req.body.name, req.body.email, 0, false], (err, result) => {
     if (err) {
-      console.error(err)
+      console.error(err);
     } else {
-      res.status(201).send('CREATED')
+      res.status(201).send('CREATED');
     }
   })
 });
@@ -177,11 +177,60 @@ app.post('/qa/questions/:question_id/answers', async (req, res) => {
   const questionId = req.params.question_id;
 
   const query = 'INSERT INTO answers(id, question_id, body, date, answerer_name, answerer_email, helpfulness, reported) VALUES($1, $2, $3, $4, $5, $6, $7, $8)';
-  pool.query(query, [newAnswerId, questionId, req.body.body, new Date(), req.body.name, req.body.email, 0, false], (err, result) => {
+  await pool.query(query, [newAnswerId, Number(questionId), req.body.body, new Date(), req.body.name, req.body.email, 0, false]);
+  const photos = req.body.photos;
+  if (photos !== undefined) {
+    for (let i = 0; i < photos.length; i++) {
+      const photoIdResult = await pool.query('SELECT MAX(id) FROM photos');
+      const newPhotoId = photoIdResult.rows[0].max + 1;
+      await pool.query('INSERT INTO photos(id, answer_id, url) VALUES($1, $2, $3)', [newPhotoId, newAnswerId, photos[i]]);
+    }
+  }
+  res.status(201).send('CREATED');
+});
+
+app.put('/qa/questions/:question_id/helpful', (req, res) => {
+  console.log(req.params);
+  const query = 'UPDATE questions SET question_helpfulness=question_helpfulness+1 WHERE question_id=$1';
+  pool.query(query,[Number(req.params.question_id)], (err, result) => {
     if (err) {
       console.error(err);
     } else {
-      res.status(201).send('CREATED');
+      res.status(204).send('NO CONTENT');
+    }
+  })
+});
+
+app.put('/qa/questions/:question_id/report', (req, res) => {
+  const query = 'UPDATE questions SET reported=true WHERE question_id=$1';
+  pool.query(query,[Number(req.params.question_id)], (err, result) => {
+    if (err) {
+      console.error(err);
+    } else {
+      res.status(204).send('NO CONTENT');
+    }
+  })
+});
+
+app.put('/qa/answers/:answer_id/helpful', (req, res) => {
+  const query = 'UPDATE answers SET helpfulness=helpfulness+1 WHERE id=$1';
+  pool.query(query,[Number(req.params.answer_id)], (err, result) => {
+    if (err) {
+      console.error(err);
+    } else {
+      res.status(204).send('NO CONTENT');
+    }
+  })
+});
+
+app.put('/qa/answers/:answer_id/report', (req, res) => {
+  console.log(req.params);
+  const query = 'UPDATE answers SET reported=true WHERE id=$1';
+  pool.query(query,[Number(req.params.answer_id)], (err, result) => {
+    if (err) {
+      console.error(err);
+    } else {
+      res.status(204).send('NO CONTENT');
     }
   })
 });

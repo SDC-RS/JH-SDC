@@ -20,7 +20,7 @@ fs.createReadStream(path.resolve(__dirname, '../data/answers_simple.csv'))
     const values = [Number(row.id), Number(row.question_id), row.body, new Date(Number(row.date_written)), row.answerer_name, row.answerer_email, !!Number(row.reported), Number(row.helpful)];
     // console.log(values);
     pool.query(query, values, (err, res) => {
-      if (err) console.error(err)
+      if (err) console.error(err);
     })
   })
   .on('end', rowCount => console.log(`Parsed ${rowCount} rows`));
