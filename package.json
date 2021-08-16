@@ -10,7 +10,8 @@
     "cassandra-answers": "node etl/cassandra-answers.js",
     "cassandra-questions": "node etl/cassandra-questions.js",
     "cassandra-photos": "node etl/cassandra-photos.js",
-    "start": "nodemon server/index.js"
+    "start": "nodemon server/index.js",
+    "test": "jest --coverage"
   },
   "repository": {
     "type": "git",
@@ -29,6 +30,14 @@
     "pg": "^8.7.1"
   },
   "devDependencies": {
-    "nodemon": "^2.0.12"
+    "jest": "^27.0.6",
+    "nodemon": "^2.0.12",
+    "supertest": "^6.1.5"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ]
   }
 }

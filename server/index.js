@@ -52,7 +52,6 @@ app.get('/qa/questions', (req, res) => {
     if (err) {
       console.error(err)
     } else {
-      // console.log(result.rows)
       const questions = {};
       result.rows.forEach(row => {
         if (questions[row.q_question_id] === undefined) {
@@ -85,7 +84,6 @@ app.get('/qa/questions', (req, res) => {
           questions[row.q_question_id].answers[row.a_id].photos.push(photo);
         }
       })
-      console.log(questions)
       res.send({
         product_id: req.query.product_id,
         results: Object.values(questions)
@@ -123,9 +121,8 @@ app.get('/qa/questions/:question_id/answers', (req, res) => {
     'WHERE a.question_id=$1 AND a.reported=FALSE';
   pool.query(query, [questionId], (err, result) => {
     if (err) {
-      console.error(err)
+      console.error(err);
     } else {
-      console.log(result.rows)
       const answers = {};
       result.rows.forEach(row => {
         if (answers[row.a_id] === undefined) {
@@ -190,7 +187,6 @@ app.post('/qa/questions/:question_id/answers', async (req, res) => {
 });
 
 app.put('/qa/questions/:question_id/helpful', (req, res) => {
-  console.log(req.params);
   const query = 'UPDATE questions SET question_helpfulness=question_helpfulness+1 WHERE question_id=$1';
   pool.query(query,[Number(req.params.question_id)], (err, result) => {
     if (err) {
@@ -224,7 +220,6 @@ app.put('/qa/answers/:answer_id/helpful', (req, res) => {
 });
 
 app.put('/qa/answers/:answer_id/report', (req, res) => {
-  console.log(req.params);
   const query = 'UPDATE answers SET reported=true WHERE id=$1';
   pool.query(query,[Number(req.params.answer_id)], (err, result) => {
     if (err) {
@@ -248,3 +243,5 @@ const port = 3000;
 app.listen(port, function() {
   console.log(`listening on port ${port}`);
 });
+
+module.exports = { app, handleParam };
