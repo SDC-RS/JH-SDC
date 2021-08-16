@@ -3,6 +3,8 @@ var app = express();
 const { Pool } = require('pg');
 
 app.use(express.json());
+var cors = require('cors');
+app.use(cors());
 
 const pool = new Pool({
   user: 'postgres',
@@ -239,7 +241,7 @@ const handleParam = (param, defaultValue) => {
   }
 };
 
-const port = 3000;
+const port = 3001;
 app.listen(port, function() {
   console.log(`listening on port ${port}`);
 });

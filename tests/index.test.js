@@ -17,7 +17,7 @@ describe('Server Test', () => {
     await pool.query('TRUNCATE questions');
     await pool.query('TRUNCATE answers');
     await pool.query('TRUNCATE photos');
-    await pool.query('INSERT INTO questions(question_id, product_id, question_body, question_date, asker_name, asker_email, question_helpfulness, reported) VALUES($1, $2, $3, $4, $5, $6, $7, $8)', [1, 2, "testBody", date, "testName", "testEmail", 3, false]);
+    await pool.query('INSERT INTO questions(question_id, product_id, question_body, question_date, asker_name, asker_email, question_helpfulness, reported) VALUES($1, $2, $3, $4, $5, $6, $7, $8)', [1, 43377, "testBody", date, "testName", "testEmail", 3, false]);
     await pool.query('INSERT INTO answers(id, question_id, body, date, answerer_name, answerer_email, helpfulness, reported) VALUES($1, $2, $3, $4, $5, $6, $7, $8)', [1, 1, "testAnswer", date, "testAnswerName", "testAnswerEmail", 2, false]);
   });
 
@@ -26,7 +26,7 @@ describe('Server Test', () => {
 
     expect(result.rows.length).toStrictEqual(1);
     expect(result.rows[0].question_id).toStrictEqual(1);
-    expect(result.rows[0].product_id).toStrictEqual(2);
+    expect(result.rows[0].product_id).toStrictEqual(43377);
     expect(result.rows[0].question_body).toStrictEqual('testBody');
     expect(result.rows[0].question_date).toStrictEqual(date);
     expect(result.rows[0].asker_name).toStrictEqual('testName');
@@ -46,10 +46,10 @@ describe('Server Test', () => {
 
   it('should GET /qa/questions', async () => {
     const response = await supertest(app)
-      .get("/qa/questions?product_id=2")
+      .get("/qa/questions?product_id=43377")
       .expect(200);
     expect(response.body).toStrictEqual({
-      "product_id": "2",
+      "product_id": "43377",
       "results": [
         {
           "answers": {
@@ -111,7 +111,7 @@ describe('Server Test', () => {
 
   it('should increment question helful count', async () => {
     const responseBefore = await supertest(app)
-      .get("/qa/questions?product_id=2")
+      .get("/qa/questions?product_id=43377")
     expect(responseBefore.body.results[0].question_helpfulness).toBe(3)
 
     const response = await supertest(app)
@@ -120,13 +120,13 @@ describe('Server Test', () => {
     expect(response.body).toStrictEqual({});
 
     const responseAfter = await supertest(app)
-      .get("/qa/questions?product_id=2")
+      .get("/qa/questions?product_id=43377")
     expect(responseAfter.body.results[0].question_helpfulness).toBe(4)
   });
 
   it('should report the question', async () => {
     const responseBefore = await supertest(app)
-      .get("/qa/questions?product_id=2")
+      .get("/qa/questions?product_id=43377")
     expect(responseBefore.body.results.length).toBe(1)
 
     const response = await supertest(app)
@@ -135,7 +135,7 @@ describe('Server Test', () => {
     expect(response.body).toStrictEqual({});
 
     const responseAfter = await supertest(app)
-      .get("/qa/questions?product_id=2")
+      .get("/qa/questions?product_id=43377")
     expect(responseAfter.body.results.length).toBe(0)
   });
 
